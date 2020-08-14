@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css %}
+<link href="{% static 'css/apps/scrumboard.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'css/forms/theme-checkbox-radio.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/components/custom-modal.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'plugins/animate/animate.css' %}" rel="stylesheet" type="text/css">
+<link href="{% static 'css/apps/contacts.css' %}" rel="stylesheet" type="text/css" />
+<link href="{% static 'plugins/notification/snackbar/snackbar.min.css' %}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="{% static 'styles.min.css' %}">
+{% endblock %}
+{% block content %}
+{% include "_modal.html" %}
+<div id="divpixi" style="display:none;">
+<pixie-editor>
+
+	<div class="global-spinner">
+		<style>.global-spinner {display: none; align-items: center; justify-content: center; z-index: 999; background: #fff; position: fixed; top: 0; left: 0; width: 100%; height: 100%;}</style>
+		<style>.la-ball-spin-clockwise,.la-ball-spin-clockwise>div{position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}.la-ball-spin-clockwise{display:block;font-size:0;color:#1976d2}.la-ball-spin-clockwise.la-dark{color:#333}.la-ball-spin-clockwise>div{display:inline-block;float:none;background-color:currentColor;border:0 solid currentColor}.la-ball-spin-clockwise{width:32px;height:32px}.la-ball-spin-clockwise>div{position:absolute;top:50%;left:50%;width:8px;height:8px;margin-top:-4px;margin-left:-4px;border-radius:100%;-webkit-animation:ball-spin-clockwise 1s infinite ease-in-out;-moz-animation:ball-spin-clockwise 1s infinite ease-in-out;-o-animation:ball-spin-clockwise 1s infinite ease-in-out;animation:ball-spin-clockwise 1s infinite ease-in-out}.la-ball-spin-clockwise>div:nth-child(1){top:5%;left:50%;-webkit-animation-delay:-.875s;-moz-animation-delay:-.875s;-o-animation-delay:-.875s;animation-delay:-.875s}.la-ball-spin-clockwise>div:nth-child(2){top:18.1801948466%;left:81.8198051534%;-webkit-animation-delay:-.75s;-moz-animation-delay:-.75s;-o-animation-delay:-.75s;animation-delay:-.75s}.la-ball-spin-clockwise>div:nth-child(3){top:50%;left:95%;-webkit-animation-delay:-.625s;-moz-animation-delay:-.625s;-o-animation-delay:-.625s;animation-delay:-.625s}.la-ball-spin-clockwise>div:nth-child(4){top:81.8198051534%;left:81.8198051534%;-webkit-animation-delay:-.5s;-moz-animation-delay:-.5s;-o-animation-delay:-.5s;animation-delay:-.5s}.la-ball-spin-clockwise>div:nth-child(5){top:94.9999999966%;left:50.0000000005%;-webkit-animation-delay:-.375s;-moz-animation-delay:-.375s;-o-animation-delay:-.375s;animation-delay:-.375s}.la-ball-spin-clockwise>div:nth-child(6){top:81.8198046966%;left:18.1801949248%;-webkit-animation-delay:-.25s;-moz-animation-delay:-.25s;-o-animation-delay:-.25s;animation-delay:-.25s}.la-ball-spin-clockwise>div:nth-child(7){top:49.9999750815%;left:5.0000051215%;-webkit-animation-delay:-.125s;-moz-animation-delay:-.125s;-o-animation-delay:-.125s;animation-delay:-.125s}.la-ball-spin-clockwise>div:nth-child(8){top:18.179464974%;left:18.1803700518%;-webkit-animation-delay:0s;-moz-animation-delay:0s;-o-animation-delay:0s;animation-delay:0s}.la-ball-spin-clockwise.la-sm{width:16px;height:16px}.la-ball-spin-clockwise.la-sm>div{width:4px;height:4px;margin-top:-2px;margin-left:-2px}.la-ball-spin-clockwise.la-2x{width:64px;height:64px}.la-ball-spin-clockwise.la-2x>div{width:16px;height:16px;margin-top:-8px;margin-left:-8px}.la-ball-spin-clockwise.la-3x{width:96px;height:96px}.la-ball-spin-clockwise.la-3x>div{width:24px;height:24px;margin-top:-12px;margin-left:-12px}@-webkit-keyframes ball-spin-clockwise{0%,100%{opacity:1;-webkit-transform:scale(1);transform:scale(1)}20%{opacity:1}80%{opacity:0;-webkit-transform:scale(0);transform:scale(0)}}@-moz-keyframes ball-spin-clockwise{0%,100%{opacity:1;-moz-transform:scale(1);transform:scale(1)}20%{opacity:1}80%{opacity:0;-moz-transform:scale(0);transform:scale(0)}}@-o-keyframes ball-spin-clockwise{0%,100%{opacity:1;-o-transform:scale(1);transform:scale(1)}20%{opacity:1}80%{opacity:0;-o-transform:scale(0);transform:scale(0)}}@keyframes ball-spin-clockwise{0%,100%{opacity:1;-webkit-transform:scale(1);-moz-transform:scale(1);-o-transform:scale(1);transform:scale(1)}20%{opacity:1}80%{opacity:0;-webkit-transform:scale(0);-moz-transform:scale(0);-o-transform:scale(0);transform:scale(0)}}</style>
+		<div class="la-ball-spin-clockwise la-2x">
+
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
+	</div>
+	<script>setTimeout(function() {
+		var spinner = document.querySelector('.global-spinner');
+		if (spinner) spinner.style.display = 'flex';
+	}, 50);
+</script>
+</pixie-editor>
+</div>
+  <div class="layout-px-spacing">
+     <div class="action-btn layout-top-spacing mb-5">
+         <p><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg> My Events</p>
+         <button class="create-event btn btn-primary" type="button" name="button">Add New Event</button>
+     </div>
+     <div class="row layout-spacing layout-top-spacing scrumboard" id="cancel-row">
+         <div class="col-lg-12">
+                  <div class="widget-content searchable-container grid">
+                      <div class="searchable-items grid">
+                 {% for event in events %}
+                          <div class="items">
+                              <div class="item-content">
+                                      <div class="connect-sorting">
+                                    <div class="task-container-header">
+                                        <h6 class="s-heading" data-listTitle="New">{{ event.event_name }}</h6>
+                                         <div class="dropdown">
+                                            <a class="dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-horizontal"><circle cx="12" cy="12" r="1"></circle><circle cx="19" cy="12" r="1"></circle><circle cx="5" cy="12" r="1"></circle></svg>
+                                            </a>
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink-1">
+                                                <a class="dropdown-item update-event" data-id="{% url 'update_event' event.pk %}">Edit</a>
+                                                <a class="dropdown-item delete-event" data-id="{% url 'delete_event' event.pk %}" >Delete</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <div  class="card img-task" style="">
+                                            <div class="card-body">
+                                                <div class="task-content">
+                                                    {% if event.image %}
+                                                    <img src="media/{{event.image}}"  class="img-fluid" alt="scrumboard">
+                                                    {% else %}
+                                                    <img src="assets/img/400x168.jpg" class="img-fluid" alt="scrumboard">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="task-header">
+                                                    <div class="">
+                                                        <a href="{% url 'design' event.pk  %}"   class="btn btn-outline-dark mb-2">Edit Template</a>
+                                                        <a href="{% url 'download' event.pk  %}" class="btn btn-outline-dark mb-2">Download template</a>
+                                                    </div>
+                                                </div>
+                                                <div class="task-body">
+
+                                                    <div class="task-bottom">
+                                                        <div class="tb-section-1">
+                                                            <span class="rounded bs-tooltip" title="Event date" ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                                                               Event data: {{ event.event_date }}
+                                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div  class="card simple-title-task" style="">
+                                            <div class="card-body">
+
+                                                <div class="task-header">
+                                                    <div class="">
+                                                        <h4 class=""  data-taskTitle="Singapore Team Meet">Total Gusts is : {{ event.guest_count }}</h4>
+                                                    </div>
+                                                    <div class="">
+                                                         <a  class="rounded bs-tooltip create_guest_in_event_page" data-id="{% url 'create_guest_in_event_page' event.pk %}" title="Add more guests" >
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#42A5F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user-plus feather-edit-2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                                                         </a>
+                                                         <a href="{% url 'guests' event.pk  %}" class="rounded bs-tooltip" title="View all guests">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#42A5F5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-eye feather-edit-2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                                         </a>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    <div class="add-s-task">
+                                        <a guest-count="{{ event.guest_count }}"  data-id="{{ event.pk }}" class="addTask rounded bs-tooltip download guest_count">
+                                           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                                            Download Invitations
+                                        </a>
+                                    </div>
+                                </div>
+                                    </div>
+  </div>
+                 {% endfor %}
+             </div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+{% endblock %}
+
+{% block extra_javascript %}
+
+<!-- For popup modal -->
+<script src="{% static 'js/jquery.bootstrap.modal.forms.js' %}"></script>
+<!-- You can alternatively load the minified version -->
+<script src="{% static 'js/jquery.bootstrap.modal.forms.min.js' %}"></script>
+<script src="{% static 'plugins/blockui/jquery.blockUI.min.js' %}"></script>
+<script src="{% static 'plugins/blockui/custom-blockui.js' %}"></script>
+<script src="{% static 'js/apps/contact.js' %}"></script>
+<script src="{% static 'plugins/notification/snackbar/snackbar.min.js' %}"></script>
+<script src="{% static 'js/ie11fix/fn.fix-padStart.js' %}"></script>
+<script src="{% static 'js/apps/scrumboard.js' %}"></script>
+<script src="{% static 'scripts.min.js' %}"></script>
+<script src="{% static 'saveImage.js' %}"></script>
+<script>
+    $(document).ready(function() {
+   // Create event button
+      $(".create-event").modalForm({formURL: "{% url 'create_event' %}", modalID: "#create-modal"});
+
+  });
+   // Update event buttons
+    $(".update-event").each(function () {
+      $(this).modalForm({formURL: $(this).data('id')});
+    });
+
+    // Delete event buttons
+    $(".delete-event").each(function () {
+      $(this).modalForm({formURL: $(this).data('id')});
+    });
+
+     // Update Guest buttons
+    $(".create_guest_in_event_page").each(function () {
+      $(this).modalForm({formURL: $(this).data('id')});
+    });
+
+        // Hide message
+      $(".alert").fadeTo(4000, 500).slideUp(500, function(){
+        $(".alert").slideUp(500);
+      });
+  </script>
+<script>
+        $(document).ready(function() {
+            App.init();
+        });
+    </script>
+<script>
+
+
+</script>
+<script>
+var pixie = new Pixie({
+    baseUrl: 'http://127.0.0.1:8000',
+    ui: {
+        openImageDialog: {
+            show: false
+        }
+    },
+});
+</script>
+
+<!--<script>
+    $(document)
+    .hide()  // hide it initially
+    .ajaxSend(function(event, jqxhr, settings) {
+    if(settings.url.includes('getGuestIDs')){
+     // $("#wait").css("display", "block");
+    // block_page();
+      }
+    })
+    .ajaxComplete(function(event, jqxhr, settings) {
+       //if(settings.url.includes('getGuestIDs')){
+         //var event_id = settings.url.replace("/getGuestIDs/?event_id=", "");
+         //timeFunction(event_id);
+     // }
+    })
+</script>-->
+<script>
+
+</script>
+
+{% endblock extra_javascript %}

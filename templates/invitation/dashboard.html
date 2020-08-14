@@ -1,0 +1,410 @@
+{% extends 'base.html' %}
+{% load static %}
+
+ {% block topbar %}
+
+            <div class="topbar-left">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-icon">
+                        <a href="dashboard1.html">
+                            <span class="fa fa-home"></span>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-active">
+                        <a href="dashboard1.html">Dashboard</a>
+                    </li>
+                    <li class="breadcrumb-link">
+                        <a href="index.html">Home</a>
+                    </li>
+                    <li class="breadcrumb-current-item">Dashboard</li>
+                </ol>
+            </div>
+            <div class="topbar-right">
+                <div class="ib topbar-dropdown">
+                    <label for="topbar-multiple" class="control-label">Event Name</label>
+                    <select id="topbar-multiple" class="hidden" onChange="window.location.href=this.value">
+                        <optgroup label="Filter By:">
+                             {% for event in events %}
+
+                                <option value="{% url 'dashboard' event.pk %}"
+                                        {% if event.pk == selected_event %}selected{% endif %}>
+                                    {{ event.event_name }}
+                                </option>
+                                {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+                <div class="ml15 ib va-m" id="sidebar_right_toggle">
+                    <div class="navbar-btn btn-group btn-group-number mv0">
+                        <button class="btn btn-sm btn-default btn-bordered prn pln">
+                            <i class="fa fa-bar-chart fs22 text-default"></i>
+                        </button>
+
+                    </div>
+                </div>
+            </div>
+  {% endblock %}
+{% block content %}
+        <!-- -------------- Content -------------- -->
+            <!-- -------------- Column Center -------------- -->
+            <div class="chute chute-center">
+                <!-- -------------- Quick Links -------------- -->
+                <div class="row">
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="panel panel-tile">
+                            <div class="panel-body">
+                                <div class="row pv10">
+                                    <div class="col-xs-5 ph10"><img src="{% static 'img/icons8-crowd-100.png' %}"
+                                                                    class="img-responsive mauto" alt=""/></div>
+                                    <div class="col-xs-7 pl5">
+                                        <h6 class="text-muted">TOTAL GUEST</h6>
+
+                                        <h2 class="fs50 mt5 mbn">{{ gustes.count }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="panel panel-tile">
+                            <div class="panel-body">
+                                <div class="row pv10">
+                                    <div class="col-xs-5 ph10"><img src="{% static 'img/icons8-handshake-100.png' %}"
+                                                                    class="img-responsive mauto" alt=""/></div>
+                                    <div class="col-xs-7 pl5">
+                                        <h6 class="text-muted">TOTAL PRESENTS</h6>
+
+                                        <h2 class="fs50 mt5 mbn">{{ total_present }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="panel panel-tile">
+                            <div class="panel-body">
+                                <div class="row pv10">
+                                    <div class="col-xs-5 ph10">
+                                        <img src="{% static 'img/icons8-delete-male-user-100.png' %}"
+                                                                    class="img-responsive mauto" alt=""/></div>
+                                    <div class="col-xs-7 pl5">
+                                        <h6 class="text-muted">TOTAL NOT SHOW</h6>
+
+                                        <h2 class="fs50 mt5 mbn">{{ total_not_show }}</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-xl-3">
+                        <div class="panel panel-tile">
+                            <div class="panel-body">
+                                <div class="row pv10">
+                                    <div class="col-xs-5 ph10"><img src="{% static 'img/icons8-percentage-80.png' %}"
+                                                                    class="img-responsive mauto" alt=""/></div>
+                                    <div class="col-xs-7 pl5">
+                                        <h6 class="text-muted">ATTENDANCE RATIO</h6>
+
+                                        <h2 class="fs50 mt5 mbn">{{ attendance_ratio }} %</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- -------------- AllCP Info -------------- -->
+                <div class="allcp-panels fade-onload">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- -------------- Poll -------------- -->
+                            <div class="panel" id="spy1">
+                                <div class="panel-heading">
+                                    <span class="panel-title">ATTENDANCE RATIO</span>
+                                </div>
+                                <div class="panel-body p20 br-a br6">
+                                    {% if  total_present == 0 and total_not_show == 0  %}
+                                    <p>No data found</p>
+                                    {% else %}
+                                    <div id="donut-chartx" style="height: 350px; width: 100%;"></div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <!-- -------------- User Project List -------------- -->
+                            <div class="panel" id="spy6">
+                                <div class="panel-heading">
+                                    <span class="panel-title">Guest List</span>
+                                </div>
+                                <div class="panel-body pn">
+                                    <div class="bs-component">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped" id="xguestTable">
+                                                <thead class="bg-primary br6">
+                                                <tr class="br6">
+                                                    <th class="br-t-l-r6 br-b-n lh25 pl30">Attendance</th>
+                                                    <th class="br-b-n"></th>
+                                                    <th class="br-t-r-r6 br-b-n"></th>
+                                                </tr>
+                                                </thead>
+                                                <thead class="bg-dark">
+                                                <tr>
+                                                    <th class="br-t-n pl30">Guest Name</th>
+                                                    <th class="br-t-n hidden-xs">Check in date</th>
+                                                    <th class="br-t-n">Status</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% if not gustes %}
+
+                                                <tr>
+                                                    <td colspan="2" style=" text-align: center">No data found</td>
+                                                </tr>
+                                                {% endif %}
+                                                   {% for guest in gustes %}
+                                                <tr>
+                                                    <td class="pl30">{{ guest.guest_name }}</td>
+                                                    <td class="hidden-xs">{{ guest.check_in_date }}</td>
+                                                     {% if guest.check_in_date %}
+                                                    <td><span class="label label-success ml5">Present</span></td>
+                                                    {% else %}
+                                                     <td><span class="label label-danger ml5">Not show</span></td>
+                                                    {% endif %}
+                                                </tr>
+                                                   {% endfor %}
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- -------------- Country List -------------- -->
+                            <div class="panel" id="spy8">
+                                <div class="panel-heading">
+                                    <span class="panel-title">Country List</span>
+                                </div>
+                                <div class="panel-body panel-scroller scroller-md scroller-pn pn">
+                                    <table class="table mbn tc-icon-bold br-t">
+                                      <thead class="bg-primary br6">
+                                                <tr class="br6">
+                                                    <th class="br-t-l-r6 br-b-n lh25 pl30">Attendance</th>
+                                                    <th class="br-b-n"></th>
+                                                    <th class="br-t-r-r6 br-b-n"></th>
+                                                </tr>
+                                                </thead>
+                                                <thead class="bg-dark">
+                                                <tr>
+                                                    <th class="br-t-n pl30">Guest Name</th>
+                                                    <th class="br-t-n hidden-xs">Check in date</th>
+                                                    <th class="br-t-n">Status</th>
+                                                </tr>
+                                                </thead>
+                                        <tbody>
+                             {% if not gustes %}
+
+                                                <tr>
+                                                    <td colspan="2" style=" text-align: center">No data found</td>
+                                                </tr>
+                                                {% endif %}
+                                                   {% for guest in gustes %}
+                                                <tr>
+                                                    <td class="pl30">{{ guest.guest_name }}</td>
+                                                    <td class="hidden-xs">{{ guest.check_in_date }}</td>
+                                                     {% if guest.check_in_date %}
+                                                    <td><span class="label label-success ml5">Present</span></td>
+                                                    {% else %}
+                                                     <td><span class="label label-danger ml5">Not show</span></td>
+                                                    {% endif %}
+                                                </tr>
+                                                   {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- -------------- /.col-md-6 -------------- -->
+                    </div>
+                </div>
+            </div>
+            <!-- -------------- /Column Center -------------- -->
+            <!-- -------------- Column Right -------------- -->
+            <aside class="chute chute-right chute270 pn hidden" data-chute-height="match">
+                <!-- -------------- Activity Timeline -------------- -->
+                <ol class="timeline-list pl5 mt5">
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-dark light">
+                            <span class="fa fa-tags"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Genry</b> Added a new item to his store:
+                            <a href="#">Ipod</a>
+                        </div>
+                        <div class="timeline-date">1:25am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-dark light">
+                            <span class="fa fa-tags"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Lion</b> Added a new item to his store:
+                            <a href="#">Notebook</a>
+                        </div>
+                        <div class="timeline-date">3:05am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-success">
+                            <span class="fa fa-usd"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Admin</b> created a new invoice for:
+                            <a href="#">Software</a>
+                        </div>
+                        <div class="timeline-date">4:15am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-warning">
+                            <span class="fa fa-pencil"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Laura</b> edited her work experience
+                        </div>
+                        <div class="timeline-date">5:25am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-success">
+                            <span class="fa fa-usd"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Admin</b> created a new invoice for:
+                            <a href="#">Apple Inc.</a>
+                        </div>
+                        <div class="timeline-date">7:45am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-dark light">
+                            <span class="fa fa-tags"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Genry</b> Added a new item to his store:
+                            <a href="#">Ipod</a>
+                        </div>
+                        <div class="timeline-date">8:25am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-dark light">
+                            <span class="fa fa-tags"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Lion</b> Added a new item to his store:
+                            <a href="#">Watch</a>
+                        </div>
+                        <div class="timeline-date">9:35am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-system">
+                            <span class="fa fa-fire"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Admin</b> created a new invoice for:
+                            <a href="#">Software</a>
+                        </div>
+                        <div class="timeline-date">4:15am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-warning">
+                            <span class="fa fa-pencil"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Laura</b> edited her work experience
+                        </div>
+                        <div class="timeline-date">5:25am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-success">
+                            <span class="fa fa-usd"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Admin</b> created a new invoice for:
+                            <a href="#">Software</a>
+                        </div>
+                        <div class="timeline-date">4:15am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-warning">
+                            <span class="fa fa-pencil"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Laura</b> edited her work experience
+                        </div>
+                        <div class="timeline-date">5:25am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-success">
+                            <span class="fa fa-usd"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Admin</b> created a new invoice for:
+                            <a href="#">Apple Inc.</a>
+                        </div>
+                        <div class="timeline-date">7:45am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-dark light">
+                            <span class="fa fa-tags"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Genry</b> Added a new item to his store:
+                            <a href="#">Ipod</a>
+                        </div>
+                        <div class="timeline-date">8:25am</div>
+                    </li>
+                    <li class="timeline-item">
+                        <div class="timeline-icon bg-dark light">
+                            <span class="fa fa-tags"></span>
+                        </div>
+                        <div class="timeline-desc">
+                            <b>Lion</b> Added a new item to his store:
+                            <a href="#">Watch</a>
+                        </div>
+                        <div class="timeline-date">9:35am</div>
+                    </li>
+                </ol>
+
+            </aside>
+            <!-- -------------- /Column Right -------------- -->
+        <!-- -------------- /Content -------------- -->
+{% endblock %}
+{% block extra_javascript %}
+ <script>
+            $(function() {
+                $('#guestTable').scrollTableBody();
+            });
+        </script>
+<script>
+
+
+    $(function() {
+      var chart101 = c3.generate({
+            bindto: '#donut-chartx',
+            color: {
+                pattern: [bgSuccessLr,bgDangerLr]
+            },
+            data: {
+                columns: [
+                    ['Present', {{ total_present }}],
+                    ['Not show', {{ total_not_show }}],
+                ],
+                type : 'donut',
+                onclick: function (d, i) { console.log("onclick", d, i); },
+                onmouseover: function (d, i) { console.log("onmouseover", d, i); },
+                onmouseout: function (d, i) { console.log("onmouseout", d, i); }
+            },
+            donut: {
+                title: ""
+            }
+        });
+          });
+</script>
+{% endblock extra_javascript %}
