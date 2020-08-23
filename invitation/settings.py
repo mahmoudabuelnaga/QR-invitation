@@ -25,7 +25,6 @@ SECRET_KEY = '47D2207D3C14C1Bbf407Cad9Feba45A7Df124Cb387Ece6B3'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['c060d613.ngrok.io', '127.0.0.1']
 ALLOWED_HOSTS = ['*', 'https://qr-invitation.herokuapp.com/']
 
 
