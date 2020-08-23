@@ -20,13 +20,18 @@
 </head>
 
 <body class="form">
-
-
     <div class="form-container outer">
         <div class="form-form">
             <div class="form-form-wrap">
                 <div class="form-container">
                     <div class="form-content">
+                        <div class="col-12 col-xl-12">
+                            <h1 class="mb-0 site-logo"><a href="{% url 'xdesign' %}" class="navbar-brand"><img
+                                        style="width: 10%;" alt="logo" src="{% static 'img/qr/qr-code (3).png' %}"><span
+                                        class=""></span>
+                                    E-Invetation</span></a>
+                            </h1>
+                        </div>
 
                         <h1 class="">Register</h1>
                         <p class="signup-link register">Already have an account? <a href="{% url 'login' %}">Login</a>
@@ -34,7 +39,8 @@
                         <form class="text-left" method="post">
                             {% csrf_token %}
                             <div class="form">
-                                {% bootstrap_form form %}
+                                {% bootstrap_form user_form %}
+                                {% bootstrap_form profile_form %}
                                 {% buttons %}
                                 <button type="submit" class="btn btn-primary" value="">Signup For Free</button>
                                 {% endbuttons %}

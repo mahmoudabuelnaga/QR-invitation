@@ -19,17 +19,17 @@ class EventsForms(forms.ModelForm):
         fields = '__all__'
 
 
-class EventForm(BSModalForm):
-    class Meta:
-        model = Event
-        exclude = ['updated_at']
+# class EventForm(BSModalForm):
+#     class Meta:
+#         model = Event
+#         exclude = ['updated_at']
 
 
-class EventPopupForm(BSModalForm):
-    class Meta:
-        model = Event
-        exclude = ['user_id', 'image_state', 'image',
-                   'is_state_update', 'barcode', 'svg']
+# class EventPopupForm(BSModalForm):
+#     class Meta:
+#         model = Event
+#         exclude = ['user_id', 'image_state', 'image',
+#                    'is_state_update', 'barcode', 'svg']
 
 
 class GuestPopupForm(BSModalForm):

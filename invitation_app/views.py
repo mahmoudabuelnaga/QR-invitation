@@ -19,10 +19,11 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.csrf import csrf_exempt
 from tablib import Dataset
-from .forms import EventPopupForm, GuestPopupForm, FileUploadForm
-from .models import Event, Guest, UserCreationForm
+from .forms import FileUploadForm, EventsForms, GuestPopupForm
+from .models import Event, Guest, City
 import base64
 from .resources import GuestResource
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 
 
 # @login_required
@@ -49,26 +50,26 @@ from .resources import GuestResource
 
 
 # def signup(request):
-    # if request.method == 'POST':
-        # form = UserCreationForm(request.POST)
-        # if form.is_valid():
-            # form.save()
-            # username = form.cleaned_data.get('username')
-            # raw_password = form.cleaned_data.get('password1')
-            # user = authenticate(username=username, password=raw_password)
-            # login(request, user)
-            # create_startup_event()
-            # return redirect('events')
-        # else:
-            # username = request.POST.get('username')
-            # email = request.POST.get('email')
-            # password1 = request.POST.get('password1')
-            # password2 = request.POST.get('password1')
-            # return render(request, 'registration/signup.html', {'form': form, 'username': username, 'email': email,
-                                                                # 'password1': password1, 'password2': password2})
-    # else:
-        # form = UserCreationForm()
-    # return render(request, 'registration/signup.html', {'form': form})
+# if request.method == 'POST':
+# form = UserCreationForm(request.POST)
+# if form.is_valid():
+# form.save()
+# username = form.cleaned_data.get('username')
+# raw_password = form.cleaned_data.get('password1')
+# user = authenticate(username=username, password=raw_password)
+# login(request, user)
+# create_startup_event()
+# return redirect('events')
+# else:
+# username = request.POST.get('username')
+# email = request.POST.get('email')
+# password1 = request.POST.get('password1')
+# password2 = request.POST.get('password1')
+# return render(request, 'registration/signup.html', {'form': form, 'username': username, 'email': email,
+# 'password1': password1, 'password2': password2})
+# else:
+# form = UserCreationForm()
+# return render(request, 'registration/signup.html', {'form': form})
 
 
 @login_required
@@ -82,7 +83,7 @@ def design(request, event_id):
     if event.image or event.image_state:
         openImageDialog = 'false'
     return render(request, 'invitation/design.html', {'event_id': event_id, 'openImageDialog': openImageDialog,
-                                           'svgPath': str(event_svg_d_path)})
+                                                      'svgPath': str(event_svg_d_path)})
 
 
 def create_startup_event():
@@ -314,29 +315,29 @@ def updateevent(request, dataset_id):
         return HttpResponse(json_values, content_type='application/json')
 
 
-class EventDeleteView(BSModalDeleteView):
+class EventDeleteView(DeleteView):
     model = Event
     template_name = 'invitation/delete_event.html'
     success_message = 'Success: Event was deleted.'
     success_url = reverse_lazy('events')
 
 
-class EventCreateView(BSModalCreateView):
+class EventCreateView(CreateView):
     template_name = 'invitation/create_event.html'
-    form_class = EventPopupForm
+    form_class = EventsForms
     success_message = 'Success: Event was created.'
     success_url = reverse_lazy('events')
 
 
-class EventUpdateView(BSModalUpdateView):
+class EventUpdateView(UpdateView):
     model = Event
     template_name = 'invitation/update_event.html'
-    form_class = EventPopupForm
+    form_class = EventsForms
     success_message = 'Success: Event was updated.'
     success_url = reverse_lazy('events')
 
 
-class GuestCreateView(BSModalCreateView):
+class GuestCreateView(CreateView):
     model = Guest
     template_name = 'invitation/create_guest.html'
     form_class = GuestPopupForm
@@ -358,7 +359,7 @@ class GuestCreateView(BSModalCreateView):
     #     return reverse('guests',kwargs={'event_id': self.kwargs['event_id']})
 
 
-class GuestCreateViewInEventPage(BSModalCreateView):
+class GuestCreateViewInEventPage(CreateView):
     template_name = 'invitation/create_guest.html'
     form_class = GuestPopupForm
     success_message = 'Success: Guest was created.'
@@ -371,7 +372,7 @@ class GuestCreateViewInEventPage(BSModalCreateView):
         return redirect('events')
 
 
-class GuestDeleteView(BSModalDeleteView):
+class GuestDeleteView(DeleteView):
     model = Guest
     template_name = 'invitation/delete_guest.html'
     success_message = 'Success: Guest was deleted.'
@@ -380,7 +381,7 @@ class GuestDeleteView(BSModalDeleteView):
         return reverse('guests', kwargs={'event_id': self.kwargs['event_id']})
 
 
-class GuestUpdateView(BSModalUpdateView):
+class GuestUpdateView(UpdateView):
     model = Guest
     template_name = 'invitation/update_guest.html'
     form_class = GuestPopupForm
@@ -480,5 +481,3 @@ def download(request, event_id):
     response['Content-Disposition'] = 'attachment; filename=' + \
         'image_for_event_id_' + str(event_id) + '.png'
     return response
-
-

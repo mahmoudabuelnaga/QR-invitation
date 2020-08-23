@@ -3,16 +3,6 @@ from django.db import models
 # Create your models here.
 
 
-class About(models.Model):
-    image = models.ImageField(upload_to='about/', default='about/700x450.png')
-    description = models.TextField()
-
-
-class Vision(models.Model):
-    image = models.ImageField(upload_to='about/', default='vision/700x450.png')
-    description = models.TextField()
-
-
 class ContactUS(models.Model):
     first_name = models.CharField(max_length=30)
     last_name = models.CharField(max_length=30)
@@ -25,3 +15,21 @@ class ContactUS(models.Model):
 
     def __str__(self):
         return f"New contact {self.pk}"
+
+
+class Partner(models.Model):
+    name = models.CharField(max_length=100)
+    logo = models.ImageField(upload_to='partners-logo')
+    url = models.URLField(max_length=200)
+
+    def __str__(self):
+        return self.name
+
+
+class OurClient(models.Model):
+    name = models.CharField(max_length=100)
+    img = models.ImageField(upload_to='our-clients')
+    description = models.TextField()
+
+    def __str__(self):
+        return self.name

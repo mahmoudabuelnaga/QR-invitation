@@ -19,6 +19,7 @@ from django.utils import timezone
 from crum import get_current_user
 from django.conf import settings
 from django.forms import EmailField
+from django_countries.fields import CountryField
 
 
 def event_directory_path(instance, filename):
@@ -37,28 +38,28 @@ def event_directory_path_for_guest_state(instance, filename):
     return 'event_id_{0}/state/{1}'.format(instance.event_id.id, filename)
 
 
-class UserCreationForm(UserCreationForm):
-    email = EmailField(label=("Email address"),
-                       required=True, help_text=("Required."))
+# class UserCreationForm(UserCreationForm):
+#     email = EmailField(label=("Email address"),
+#                        required=True, help_text=("Required."))
 
-    class Meta:
-        model = User
-        fields = ("username", "email", "password1", "password2")
+#     class Meta:
+#         model = User
+#         fields = ("username", "email", "password1", "password2")
 
-    def clean_email(self):
-        email = self.cleaned_data['email'].lower()
-        r = User.objects.filter(email=email)
-        if r.count():
-            raise ValidationError("Email already exists")
-        return email
+#     def clean_email(self):
+#         email = self.cleaned_data['email'].lower()
+#         r = User.objects.filter(email=email)
+#         if r.count():
+#             raise ValidationError("Email already exists")
+#         return email
 
-    def save(self, commit=True):
-        user = super(UserCreationForm, self).save(commit=False)
-        user.email = self.cleaned_data["email"]
-        print(self.cleaned_data["email"])
-        if commit:
-            user.save()
-        return user
+#     def save(self, commit=True):
+#         user = super(UserCreationForm, self).save(commit=False)
+#         user.email = self.cleaned_data["email"]
+#         print(self.cleaned_data["email"])
+#         if commit:
+#             user.save()
+#         return user
 
 
 class Country(models.Model):
@@ -77,7 +78,8 @@ class City(models.Model):
 
 
 class Event_Type(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=100)
+    img = models.ImageField(upload_to='our-events')
 
     def __str__(self):
         return self.name
@@ -91,9 +93,11 @@ class OverwriteStorage(FileSystemStorage):
 
 
 class Event(models.Model):
-    id = models.AutoField(auto_created=True, primary_key=True,
-                          serialize=False, verbose_name='ID')
-    event_name = models.CharField(max_length=50)
+    event_name = models.CharField(max_length=100)
+    country = CountryField(
+        blank_label='(select country)', null=True, blank=True)
+    city = models.CharField(max_length=100, null=True, blank=True)
+    event_type = models.ForeignKey(Event_Type, on_delete=models.CASCADE)
     image = models.FileField(storage=OverwriteStorage(
     ), upload_to=event_directory_path, null=True, blank=True)
     image_state = models.FileField(storage=OverwriteStorage(
@@ -102,7 +106,7 @@ class Event(models.Model):
     svg = models.FileField(upload_to=event_directory_path)
     is_state_update = models.BooleanField(default=True)
     event_date = models.DateTimeField(null=True, blank=True)
-    created_at = models.DateTimeField(editable=False)
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
     # def __str__(self):
@@ -213,6 +217,9 @@ class Templates(models.Model):
     created_by = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Templates"
 
     def save(self, *args, **kwargs):
         user = get_current_user()
