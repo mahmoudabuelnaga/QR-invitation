@@ -1,1 +1,1 @@
-web: gunicorn invitation.wsgi
+web: gunicorn invitation.wsgi --log-file -
