@@ -9,7 +9,7 @@ from invitation_app.models import Event, Guest, City
 
 def home(request):
     partners = Partner.objects.all()
-    num_event = Event.objects.all().count()
+    # num_event = Event.objects.all().count()
     num_guest = Guest.objects.all().count()
     num_city = City.objects.all().count()
     events = Event_Type.objects.all()
