@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'QRCode',
         'USER': 'postgres',
         'PASSWORD': 'mahmoudaboelnaga@1751998',
-        'HOST': '',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
