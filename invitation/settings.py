@@ -92,8 +92,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'QRCode',
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'USER': 'postgres',
+        'PASSWORD': 'mahmoudaboelnaga@1751998',
         'HOST': '',
         'PORT': '5432',
     }
