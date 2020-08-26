@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['qr-invitation.herokuapp.com']
+ALLOWED_HOSTS = ['*', 'https://qr-invitation.herokuapp.com']
 
 
 # Application definition
