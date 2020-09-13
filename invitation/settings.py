@@ -9,10 +9,7 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-import django_heroku
 import os
-
-django_heroku.settings(locals())
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -23,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '47D2207D3C14C1Bbf407Cad9Feba45A7Df124Cb387Ece6B3'
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = '47D2207D3C14C1Bbf407Cad9Feba45A7Df124Cb387Ece6B3'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -57,7 +54,6 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -91,14 +87,21 @@ WSGI_APPLICATION = 'invitation.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'QRCode',
+#         'USER': 'postgres',
+#         'PASSWORD': 'mahmoudaboelnaga@1751998',
+#         'HOST': '127.0.0.1',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'QRCode',
-        'USER': 'postgres',
-        'PASSWORD': 'mahmoudaboelnaga@1751998',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
     }
 }
 
@@ -146,8 +149,6 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 LOGIN_REDIRECT_URL = '/accounts/profile'
